@@ -8,12 +8,12 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "node --test",
+    "test": "node --import tsx --test \"**/*.test.ts\"",
     "db:migrate": "prisma migrate dev",
     "db:deploy": "prisma migrate deploy",
     "db:seed": "tsx prisma/seed.ts",
     "db:studio": "prisma studio",
-    "images:gen": "node scripts/generate-vehicle-images.mjs"
+    "images:gen": "tsx scripts/generate-vehicle-images.ts"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"

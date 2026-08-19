@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900" role="img" aria-label="Toyota Alphard — ilustrasi detail belakang">
+  <title>Toyota Alphard — ilustrasi detail belakang</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E6E9F3"/>
+    </linearGradient>
+    <clipPath id="frame">
+      <rect x="0" y="0" width="1200" height="732"/>
+    </clipPath>
+  </defs>
+
+  <rect width="1200" height="900" fill="url(#bg)"/>
+
+  <g clip-path="url(#frame)">
+    <g transform="translate(-593.6 -242.2) scale(1.35)">
+
+  <g>
+    <ellipse cx="600" cy="706" rx="461.76" ry="18" fill="#0F2A43" opacity="0.10"/>
+    <path d="
+      M 156 512
+      Q 156 486 182 486
+      L 214 486
+      L 238.36 356
+      L 988.9 356
+      L 1000.5 486
+      L 1018 486
+      Q 1044 486 1044 512
+      L 1044 602
+      L 156 602
+      Z" fill="#1D4568"/>
+    <path d="
+      M 228 474
+      L 252.36 372
+      L 974.9 372
+      L 986.5 474
+      Z" fill="#FFFFFF" opacity="0.32"/>
+    <circle cx="351.36" cy="628" r="64" fill="#0F2A43"/>
+    <circle cx="351.36" cy="628" r="19.2" fill="#1D4568"/>
+    <circle cx="857.52" cy="628" r="64" fill="#0F2A43"/>
+    <circle cx="857.52" cy="628" r="19.2" fill="#1D4568"/>
+  </g>
+    </g>
+  </g>
+
+  <!-- pita informasi: menjaga teks tidak pernah menimpa ilustrasi, berapa pun zoom-nya -->
+  <rect x="0" y="732" width="1200" height="168" fill="#FFFFFF"/>
+  <!-- marka jalan: elemen tematik yang sama dipakai sebagai divider heading di seluruh situs -->
+  <line x1="0" y1="732" x2="1200" y2="732" stroke="#E8A020" stroke-width="7"
+        stroke-dasharray="64 44" stroke-linecap="round"/>
+
+  <g font-family="Plus Jakarta Sans, Inter, system-ui, sans-serif">
+    <text x="64" y="804" font-size="46" font-weight="800" fill="#0F2A43">Toyota Alphard</text>
+    <text x="64" y="854" font-size="28" font-weight="500" fill="#1D4568" opacity="0.75">7 kursi · Matic · Bensin</text>
+
+    <rect x="863" y="56" width="281" height="58" rx="29" fill="#0F2A43" opacity="0.92"/>
+    <text x="1003.5" y="94" font-size="26" font-weight="600" fill="#FFFFFF" text-anchor="middle">Detail Belakang</text>
+
+    <text x="1136" y="854" font-size="22" font-weight="500" fill="#1D4568" opacity="0.5"
+          text-anchor="end">Foto ilustrasi — demo</text>
+  </g>
+</svg>
