@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { Accordion } from "@/components/Accordion";
+import { AvailabilityWidget } from "@/components/AvailabilityWidget";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ServiceCard } from "@/components/ServiceCard";
 import { TestimonialCard } from "@/components/TestimonialCard";
@@ -28,42 +29,66 @@ const LOKASI = [
 ];
 
 export default async function HomePage() {
-  const featured = await listVehicleCards({ take: 6 });
+  // Satu query: widget hero butuh seluruh unit, section armada hanya enam teratas.
+  const all = await listVehicleCards();
+  const featured = all.slice(0, 6);
 
   return (
     <>
       {/* 1. Hero */}
-      <section className="bg-road-100">
+      <section className="relative isolate overflow-hidden bg-navy-900">
+        {/* Foto hero dimuat eager dan berprioritas tinggi: ia elemen LCP halaman
+            ini. Kualitasnya sengaja rendah karena tertutup overlay pekat —
+            mata tidak melihat bedanya, Lighthouse melihat. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/images/hero.webp"
+          alt=""
+          aria-hidden="true"
+          width={1600}
+          height={900}
+          fetchPriority="high"
+          className="absolute inset-0 -z-10 size-full object-cover"
+        />
+        {/* Overlay pekat, bukan tipis: teks putih di atas foto harus tetap lolos
+            kontras AA berapa pun terang foto di baliknya. */}
+        <div className="absolute inset-0 -z-10 bg-navy-900/85" aria-hidden="true" />
+
         <div className="mx-auto max-w-7xl px-4 py-16 lg:py-24">
-          <div className="max-w-3xl">
-            <h1 className="font-display text-3xl font-extrabold leading-tight text-navy-900 sm:text-4xl lg:text-5xl">
-              Rental Mobil Jakarta &amp; Tangerang Selatan, Mulai Rp300.000/hari
-            </h1>
-            <div className="road-divider mt-5 w-32" aria-hidden="true" />
-            <p className="mt-5 text-lg text-navy-700">
-              Unit terawat dan difoto apa adanya, harga tercantum tanpa biaya tersembunyi, dan
-              balasan WhatsApp di bawah 5 menit selama jam layanan.
-            </p>
+          <div className="grid items-start gap-12 lg:grid-cols-[1.15fr_1fr]">
+            <div>
+              <h1 className="font-display text-3xl font-extrabold leading-tight text-white sm:text-4xl lg:text-5xl">
+                Rental Mobil Jakarta &amp; Tangerang Selatan, Mulai Rp300.000/hari
+              </h1>
+              <div className="road-divider mt-5 w-32" aria-hidden="true" />
+              <p className="mt-5 text-lg text-white/85">
+                Unit terawat dan difoto apa adanya, harga tercantum tanpa biaya tersembunyi, dan
+                balasan WhatsApp di bawah 5 menit selama jam layanan.
+              </p>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <WaButton context={{ kind: "umum", path: "/" }} size="lg" />
-              <Link
-                href="/armada"
-                className="inline-flex min-h-14 items-center justify-center rounded-lg border-2 border-navy-900 px-7 text-lg font-semibold text-navy-900 transition-colors hover:bg-navy-900 hover:text-white"
-              >
-                Lihat Armada
-              </Link>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <WaButton context={{ kind: "umum", path: "/" }} size="lg" />
+                <Link
+                  href="/armada"
+                  className="inline-flex min-h-14 items-center justify-center rounded-lg border-2 border-white px-7 text-lg font-semibold text-white transition-colors hover:bg-white hover:text-navy-900"
+                >
+                  Lihat Armada
+                </Link>
+              </div>
+
+              <div className="mt-8">
+                <TrustChips
+                  tone="dark"
+                  chips={[
+                    { label: `Sejak ${SITE.foundedYear}` },
+                    { label: "25+ Unit Terawat" },
+                    { label: `Layanan ${SITE.hours.open}–${SITE.hours.close}` },
+                  ]}
+                />
+              </div>
             </div>
 
-            <div className="mt-8">
-              <TrustChips
-                chips={[
-                  { label: `Sejak ${SITE.foundedYear}` },
-                  { label: "25+ Unit Terawat" },
-                  { label: `Layanan ${SITE.hours.open}–${SITE.hours.close}` },
-                ]}
-              />
-            </div>
+            <AvailabilityWidget units={all.map((v) => ({ slug: v.slug, name: v.name }))} />
           </div>
         </div>
       </section>
@@ -85,13 +110,14 @@ export default async function HomePage() {
           </div>
           <div>
             <p className="text-sm font-semibold text-navy-900">Penilaian pelanggan</p>
+            {/* Angka ini bagian dari data demo, bukan agregat ulasan sungguhan.
+                Penjelasannya cukup sekali di footer — mengulanginya di sini
+                mengganggu tanpa menambah kejujuran. */}
             <p className="mt-1 text-sm text-navy-700/80">
               <span className="tabular font-display font-extrabold text-amber-500">
                 {SITE.rating.toFixed(1)} ★
               </span>{" "}
-              dari pelanggan kami{" "}
-              {/* Angka ini bagian dari data demo, bukan agregat ulasan sungguhan. */}
-              <span className="text-navy-700/50">(data demo)</span>
+              dari pelanggan kami
             </p>
           </div>
         </div>

@@ -2,7 +2,7 @@ import { hash } from "bcryptjs";
 
 import { db } from "../lib/db";
 import { generateBookingCode } from "../lib/booking-code";
-import { FLEET, imagePaths } from "./fleet-data";
+import { FLEET, resolveImages } from "./fleet-data";
 
 /** Tengah malam waktu Asia/Jakarta, digeser n hari dari hari ini. */
 function dayOffset(n: number): Date {
@@ -69,7 +69,7 @@ async function main() {
   for (const unit of FLEET) {
     const { slug, ...rest } = unit;
     const created = await db.vehicle.create({
-      data: { slug, ...rest, images: imagePaths(slug) },
+      data: { slug, ...rest, images: await resolveImages(slug) },
     });
     vehicles.set(slug, created.id);
   }

@@ -35,19 +35,25 @@ export function VehicleCard({ vehicle, priority = false }: { vehicle: VehicleCar
 
   return (
     <article className="group flex flex-col overflow-hidden rounded-xl border border-road-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <Link href={`/armada/${slug}`} className="block">
-        {/* next/image tidak mengoptimasi SVG, dan mengaktifkan dangerouslyAllowSVG
-            membuka permukaan risiko tanpa imbalan — ilustrasi ini sudah ~4KB. */}
+      <Link href={`/armada/${slug}`} className="relative block">
+        {/* Sengaja <img>, bukan next/image: berkasnya sudah webp terpotong 4:3
+            seukuran kartu, jadi tidak ada yang tersisa untuk dioptimasi — dan
+            galeri detail masih bisa memuat .svg, yang next/image tidak proses. */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={images[0]}
-          alt={`Ilustrasi ${name}`}
+          alt={`Foto ilustrasi ${name}`}
           width={1200}
           height={900}
           loading={priority ? "eager" : "lazy"}
           fetchPriority={priority ? "high" : "auto"}
           className="aspect-4/3 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
         />
+        {/* Foto armada generik, bukan unit yang sebenarnya. Label ini mencegah
+            pengunjung menyangka sedang melihat mobil yang akan ia terima. */}
+        <span className="absolute bottom-2 right-2 rounded bg-navy-900/75 px-2 py-0.5 text-xs font-medium text-white">
+          Foto ilustrasi
+        </span>
       </Link>
 
       <div className="flex flex-1 flex-col p-5">

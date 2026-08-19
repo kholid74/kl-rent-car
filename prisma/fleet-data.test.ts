@@ -1,7 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { FLEET, IMAGES_PER_UNIT, TOTAL_PHYSICAL_UNITS, imagePaths } from "./fleet-data";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+import { FLEET, IMAGES_PER_UNIT, TOTAL_PHYSICAL_UNITS, resolveImages } from "./fleet-data";
 
 test("slug setiap unit unik — slug adalah URL publik dan kunci upsert seed", () => {
   const slugs = FLEET.map((u) => u.slug);
@@ -59,10 +62,15 @@ test("deskripsi tidak dipakai ulang antar unit", () => {
   assert.equal(new Set(firstSentences).size, FLEET.length);
 });
 
-test("path gambar konsisten dengan slug", () => {
+test("setiap unit punya berkas gambar yang benar-benar ada di disk", async () => {
   for (const u of FLEET) {
-    const paths = imagePaths(u.slug);
-    assert.equal(paths.length, IMAGES_PER_UNIT);
-    assert.equal(paths[0], `/images/armada/${u.slug}-1.svg`);
+    const paths = await resolveImages(u.slug);
+    assert.equal(paths.length, IMAGES_PER_UNIT, `${u.slug} tidak punya ${IMAGES_PER_UNIT} gambar`);
+    for (const p of paths) {
+      assert.ok(
+        existsSync(join(process.cwd(), "public", p)),
+        `berkas hilang: ${p} — kartu armada akan menampilkan gambar rusak`,
+      );
+    }
   }
 });

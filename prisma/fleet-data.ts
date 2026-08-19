@@ -1,7 +1,5 @@
 /**
- * Sumber tunggal data armada. Dibaca oleh prisma/seed.ts dan oleh
- * scripts/generate-vehicle-images.ts, supaya nama unit di gambar tidak pernah
- * melenceng dari nama unit di database.
+ * Sumber tunggal data armada, dibaca oleh prisma/seed.ts.
  *
  * Tipe ditulis sebagai union literal, bukan impor enum Prisma, agar file ini
  * tetap bisa dibaca sebelum `prisma generate` pernah dijalankan.
@@ -237,6 +235,38 @@ export const TOTAL_PHYSICAL_UNITS = FLEET.reduce((n, u) => n + u.unitCount, 0);
 /** Berapa gambar yang dibuat per unit. Menentukan panjang array images di seed. */
 export const IMAGES_PER_UNIT = 3;
 
-export function imagePaths(slug: string): string[] {
-  return Array.from({ length: IMAGES_PER_UNIT }, (_, i) => `/images/armada/${slug}-${i + 1}.svg`);
+/** Urutan preferensi bila satu unit punya beberapa format. */
+const EXTENSIONS = [".webp", ".jpg", ".jpeg", ".png"] as const;
+
+/**
+ * Mencari berkas gambar yang benar-benar ada untuk satu unit.
+ *
+ * Mengganti foto cukup dengan menimpa berkas `<slug>-1.webp` dan seterusnya di
+ * public/images/armada lalu menjalankan seed ulang — tidak ada kode atau data
+ * yang perlu disunting.
+ *
+ * Unit tanpa satu pun gambar melempar error, bukan diam-diam menyimpan path
+ * yang nanti 404 di halaman publik. Kartu armada tanpa gambar adalah cacat yang
+ * harus ketahuan saat seed, bukan saat klien membuka demo.
+ *
+ * Hanya dipanggil dari skrip seed, jadi akses filesystem di sini aman.
+ */
+export async function resolveImages(slug: string): Promise<string[]> {
+  const { existsSync } = await import("node:fs");
+  const { join } = await import("node:path");
+  const dir = join(process.cwd(), "public", "images", "armada");
+
+  const found: string[] = [];
+  for (let i = 1; i <= IMAGES_PER_UNIT; i++) {
+    const ext = EXTENSIONS.find((e) => existsSync(join(dir, `${slug}-${i}${e}`)));
+    if (ext) found.push(`/images/armada/${slug}-${i}${ext}`);
+  }
+
+  if (found.length === 0) {
+    throw new Error(
+      `Tidak ada gambar untuk unit "${slug}" di public/images/armada. ` +
+        `Jalankan \`npm run images:fetch\`, atau taruh ${slug}-1.webp di folder itu.`,
+    );
+  }
+  return found;
 }
