@@ -1,0 +1,111 @@
+// Neon menjalankan dua hostname untuk database yang sama:
+// DATABASE_URL menunjuk ke pooler (PgBouncer) — dipakai runtime serverless,
+// DIRECT_URL menunjuk ke host langsung — satu-satunya yang bisa dipakai migrate.
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum VehicleCategory {
+  LCGC
+  MPV
+  SUV
+  PREMIUM
+  MINIBUS
+}
+
+enum Transmission {
+  MANUAL
+  MATIC
+}
+
+enum ServiceType {
+  SELF_DRIVE
+  WITH_DRIVER
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+/// Satu *model* kendaraan, bukan satu mobil fisik. Lihat CONTEXT.md.
+model Vehicle {
+  id           String          @id @default(cuid())
+  slug         String          @unique
+  name         String
+  brand        String
+  model        String
+  year         Int
+  category     VehicleCategory
+  seats        Int
+  luggage      Int
+  transmission Transmission
+  fuel         String
+  engineCc     Int
+
+  /// Banyaknya mobil fisik untuk model ini. Dasar perhitungan bentrok.
+  unitCount Int
+
+  /// null berarti unit ini memang tidak pernah disewakan tanpa sopir —
+  /// bukan harga yang belum diisi. Ketiadaannya adalah pernyataan bisnis.
+  priceSelfDrive Int?
+  /// Tarif paket 12 jam.
+  priceWithDriver Int
+  /// null berarti dinegosiasikan lewat penawaran, bukan tidak tersedia.
+  priceMonthly Int?
+
+  facilities  String[]
+  description String
+  images      String[]
+  isActive    Boolean  @default(true)
+
+  bookings  Booking[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([category, isActive])
+}
+
+/// Selalu permintaan sewa, tidak pernah transaksi — tidak ada pembayaran di situs.
+model Booking {
+  id   String @id @default(cuid())
+  /// Pengenal yang dibaca manusia, satu-satunya kunci yang dipegang pelanggan.
+  code String @unique
+
+  vehicleId   String
+  vehicle     Vehicle     @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  serviceType ServiceType
+
+  /// Granularitas hari, disimpan sebagai tengah malam waktu Asia/Jakarta.
+  startDate DateTime
+  endDate   DateTime
+
+  pickupLocation String
+  customerName   String
+  /// Format 62xxx.
+  customerPhone String
+  notes         String?
+
+  status    BookingStatus @default(PENDING)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@index([vehicleId, startDate, endDate])
+  @@index([status])
+}
+
+model AdminUser {
+  id       String @id @default(cuid())
+  email    String @unique
+  password String
+  name     String
+}
