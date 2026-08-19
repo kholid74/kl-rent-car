@@ -1,10 +1,7 @@
-// Neon menjalankan dua hostname untuk database yang sama:
-// DATABASE_URL menunjuk ke pooler (PgBouncer) — dipakai runtime serverless,
-// DIRECT_URL menunjuk ke host langsung — satu-satunya yang bisa dipakai migrate.
+// Prisma 7 melarang URL koneksi di schema. URL untuk migrasi ada di
+// prisma.config.ts, URL untuk runtime disuntik lewat driver adapter di lib/db.ts.
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
 }
 
 generator client {

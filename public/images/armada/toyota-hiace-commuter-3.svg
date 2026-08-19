@@ -6,57 +6,52 @@
       <stop offset="1" stop-color="#E3EDF0"/>
     </linearGradient>
     <clipPath id="frame">
-      <rect x="0" y="0" width="1200" height="732"/>
+      <rect x="0" y="0" width="1200" height="900"/>
     </clipPath>
   </defs>
 
   <rect width="1200" height="900" fill="url(#bg)"/>
 
   <g clip-path="url(#frame)">
-    <g transform="translate(-666.2 -242.2) scale(1.35)">
+    <g transform="translate(-666.2 -241.5) scale(1.35)">
 
   <g>
-    <ellipse cx="600" cy="706" rx="549.12" ry="18" fill="#0F2A43" opacity="0.10"/>
+    <ellipse cx="600" cy="704" rx="549.12" ry="18" fill="#0F2A43" opacity="0.10"/>
     <path d="
-      M 72 466
-      Q 72 440 98 440
-      L 106 440
-      L 120.28 308
-      L 1095.7 308
-      L 1102.5 440
-      L 1102 440
-      Q 1128 440 1128 466
-      L 1128 588
-      L 72 588
+      M 72 464
+      Q 72 438 98 438
+      L 106 438
+      L 120.28 306
+      L 1095.7 306
+      L 1102.5 438
+      L 1102 438
+      Q 1128 438 1128 464
+      L 1128 586
+      L 72 586
       Z" fill="#1D4568"/>
     <path d="
-      M 120 428
-      L 134.28 324
-      L 1081.7 324
-      L 1088.5 428
+      M 120 426
+      L 134.28 322
+      L 1081.7 322
+      L 1088.5 426
       Z" fill="#FFFFFF" opacity="0.32"/>
-    <circle cx="304.32" cy="624" r="68" fill="#0F2A43"/>
-    <circle cx="304.32" cy="624" r="20.4" fill="#1D4568"/>
-    <circle cx="906.24" cy="624" r="68" fill="#0F2A43"/>
-    <circle cx="906.24" cy="624" r="20.4" fill="#1D4568"/>
+    <circle cx="304.32" cy="622" r="68" fill="#0F2A43"/>
+    <circle cx="304.32" cy="622" r="20.4" fill="#1D4568"/>
+    <circle cx="906.24" cy="622" r="68" fill="#0F2A43"/>
+    <circle cx="906.24" cy="622" r="20.4" fill="#1D4568"/>
   </g>
     </g>
   </g>
 
-  <!-- pita informasi: menjaga teks tidak pernah menimpa ilustrasi, berapa pun zoom-nya -->
-  <rect x="0" y="732" width="1200" height="168" fill="#FFFFFF"/>
   <!-- marka jalan: elemen tematik yang sama dipakai sebagai divider heading di seluruh situs -->
-  <line x1="0" y1="732" x2="1200" y2="732" stroke="#E8A020" stroke-width="7"
-        stroke-dasharray="64 44" stroke-linecap="round"/>
+  <line x1="96" y1="768" x2="1104" y2="768" stroke="#E8A020" stroke-width="7"
+        stroke-dasharray="64 44" stroke-linecap="round" opacity="0.8"/>
 
   <g font-family="Plus Jakarta Sans, Inter, system-ui, sans-serif">
-    <text x="64" y="804" font-size="46" font-weight="800" fill="#0F2A43">Toyota Hiace Commuter</text>
-    <text x="64" y="854" font-size="28" font-weight="500" fill="#1D4568" opacity="0.75">15 kursi · Manual · Diesel</text>
-
     <rect x="863" y="56" width="281" height="58" rx="29" fill="#0F2A43" opacity="0.92"/>
     <text x="1003.5" y="94" font-size="26" font-weight="600" fill="#FFFFFF" text-anchor="middle">Detail Belakang</text>
 
-    <text x="1136" y="854" font-size="22" font-weight="500" fill="#1D4568" opacity="0.5"
+    <text x="1136" y="852" font-size="24" font-weight="500" fill="#1D4568" opacity="0.45"
           text-anchor="end">Foto ilustrasi — demo</text>
   </g>
 </svg>

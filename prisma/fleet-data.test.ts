@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 
-import { FLEET, IMAGES_PER_UNIT, TOTAL_PHYSICAL_UNITS, imagePaths } from "./fleet-data.ts";
+import { FLEET, IMAGES_PER_UNIT, TOTAL_PHYSICAL_UNITS, imagePaths } from "./fleet-data";
 
 test("slug setiap unit unik — slug adalah URL publik dan kunci upsert seed", () => {
   const slugs = FLEET.map((u) => u.slug);

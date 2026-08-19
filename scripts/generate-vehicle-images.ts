@@ -15,7 +15,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
-import { FLEET, IMAGES_PER_UNIT, type VehicleCategory } from "../prisma/fleet-data.ts";
+import { FLEET, IMAGES_PER_UNIT, type VehicleCategory } from "../prisma/fleet-data";
 
 const OUT_DIR = join(process.cwd(), "public", "images", "armada");
 
@@ -60,10 +60,12 @@ const PROPORTIONS: Record<VehicleCategory, Proportions> = {
 
 const W = 1200;
 const H = 900; // rasio 4:3, sesuai kartu armada di spec
-/** Tinggi pita informasi di bawah. Teks tidak pernah menimpa ilustrasi. */
-const BAND = 168;
-/** Garis tanah tempat roda menapak. */
-const GROUND = H - BAND - 40;
+/**
+ * Ilustrasi tidak memuat nama unit maupun spesifikasi. Kartu armada dan halaman
+ * detail sudah menuliskannya, dan memanggangnya ke dalam gambar membuat setiap
+ * kartu menampilkan teks yang sama dua kali.
+ */
+const GROUND = H - 210;
 
 function escapeXml(s: string): string {
   return s.replace(/[<>&"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -141,12 +143,10 @@ function render(unit: (typeof FLEET)[number], variant: number): string {
   const p = PROPORTIONS[unit.category];
   const angle = ANGLES[variant - 1] ?? ANGLES[0];
   const title = `${unit.name} — ilustrasi ${angle.toLowerCase()}`;
-  const specs = `${unit.seats} kursi · ${unit.transmission === "MATIC" ? "Matic" : "Manual"} · ${unit.fuel}`;
 
   // Lebar pil mengikuti panjang label, bukan angka mati — label terpanjang
   // ("Detail Belakang") kalau tidak akan tumpah keluar pil.
   const badgeW = angle.length * 15 + 56;
-  const bandTop = H - BAND;
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${escapeXml(title)}">
   <title>${escapeXml(title)}</title>
@@ -156,7 +156,7 @@ function render(unit: (typeof FLEET)[number], variant: number): string {
       <stop offset="1" stop-color="${p.tint}"/>
     </linearGradient>
     <clipPath id="frame">
-      <rect x="0" y="0" width="${W}" height="${bandTop}"/>
+      <rect x="0" y="0" width="${W}" height="${H}"/>
     </clipPath>
   </defs>
 
@@ -168,20 +168,15 @@ ${silhouette(p)}
     </g>
   </g>
 
-  <!-- pita informasi: menjaga teks tidak pernah menimpa ilustrasi, berapa pun zoom-nya -->
-  <rect x="0" y="${bandTop}" width="${W}" height="${BAND}" fill="#FFFFFF"/>
   <!-- marka jalan: elemen tematik yang sama dipakai sebagai divider heading di seluruh situs -->
-  <line x1="0" y1="${bandTop}" x2="${W}" y2="${bandTop}" stroke="${AMBER}" stroke-width="7"
-        stroke-dasharray="64 44" stroke-linecap="round"/>
+  <line x1="96" y1="${GROUND + 78}" x2="${W - 96}" y2="${GROUND + 78}" stroke="${AMBER}" stroke-width="7"
+        stroke-dasharray="64 44" stroke-linecap="round" opacity="0.8"/>
 
   <g font-family="Plus Jakarta Sans, Inter, system-ui, sans-serif">
-    <text x="64" y="${bandTop + 72}" font-size="46" font-weight="800" fill="${NAVY_900}">${escapeXml(unit.name)}</text>
-    <text x="64" y="${bandTop + 122}" font-size="28" font-weight="500" fill="${NAVY_700}" opacity="0.75">${escapeXml(specs)}</text>
-
     <rect x="${W - badgeW - 56}" y="56" width="${badgeW}" height="58" rx="29" fill="${NAVY_900}" opacity="0.92"/>
     <text x="${W - badgeW / 2 - 56}" y="94" font-size="26" font-weight="600" fill="#FFFFFF" text-anchor="middle">${escapeXml(angle)}</text>
 
-    <text x="${W - 64}" y="${bandTop + 122}" font-size="22" font-weight="500" fill="${NAVY_700}" opacity="0.5"
+    <text x="${W - 64}" y="${H - 48}" font-size="24" font-weight="500" fill="${NAVY_700}" opacity="0.45"
           text-anchor="end">Foto ilustrasi — demo</text>
   </g>
 </svg>
