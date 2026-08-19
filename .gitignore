@@ -43,3 +43,6 @@ next-env.d.ts
 
 # prisma generated client
 /lib/generated
+
+# staging tiket sebelum diterbitkan ke GitHub Issues
+/.scratch

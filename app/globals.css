@@ -51,9 +51,9 @@ body {
   background-image: repeating-linear-gradient(
     to right,
     var(--color-amber-500) 0,
-    var(--color-amber-500) 28px,
-    transparent 28px,
-    transparent 48px
+    var(--color-amber-500) 18px,
+    transparent 18px,
+    transparent 30px
   );
 }
 
