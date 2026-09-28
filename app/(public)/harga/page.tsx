@@ -1,0 +1,7 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { db } from "@/lib/db";
+import { formatRupiah } from "@/lib/format";
+import { PageTitle } from "../_components/PageTitle";
+export const metadata: Metadata = { title: "Harga" };
+export default async function PricesPage() { const units = await db.vehicle.findMany({ where: { isActive: true }, orderBy: { priceWithDriver: "asc" }, select: { slug: true, name: true, priceSelfDrive: true, priceWithDriver: true, priceMonthly: true } }); return <section className="mx-auto max-w-5xl px-4 py-14"><PageTitle eyebrow="Harga" title="Daftar harga sewa" description="Tarif per unit. BBM, tol, parkir, dan deposit mengikuti ketentuan layanan." /><div className="mt-9 overflow-x-auto rounded-xl border border-road-200"><table className="w-full min-w-[36rem] text-left"><thead className="bg-road-100"><tr><th className="p-4">Unit</th><th className="p-4">Lepas kunci / hari</th><th className="p-4">Dengan sopir / 12 jam</th><th className="p-4">Bulanan</th></tr></thead><tbody>{units.map((u) => <tr key={u.slug} className="border-t border-road-200"><th className="p-4 font-semibold"><Link className="underline" href={`/armada/${u.slug}`}>{u.name}</Link></th><td className="p-4">{u.priceSelfDrive === null ? "Tidak tersedia" : formatRupiah(u.priceSelfDrive)}</td><td className="p-4">{formatRupiah(u.priceWithDriver)}</td><td className="p-4">{u.priceMonthly === null ? "Hubungi kami" : formatRupiah(u.priceMonthly)}</td></tr>)}</tbody></table></div></section>; }
