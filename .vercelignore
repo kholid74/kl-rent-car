@@ -1,0 +1,6 @@
+# Vercel CLI tidak menghormati .gitignore, jadi berkas kredensial harus
+# didaftarkan di sini secara eksplisit. Tanpa ini .env dan .env.local ikut
+# terunggah ke build container — env yang dibutuhkan Vercel tetap tersedia
+# lewat Environment Variables di dashboard, bukan lewat berkas ini.
+.env*
+.scratch/
