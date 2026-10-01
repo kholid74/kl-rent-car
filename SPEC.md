@@ -1,5 +1,7 @@
 # SPEC — KL Rent Car (Website Showcase Kalsara Digital Studio)
 
+> **Pembaruan arah:** keputusan showcase premium, seluruh armada tetap tampil, fokus layanan dengan sopir, palet hitam–putih gading–emas, dan foto manual tercatat di [docs/ARAH-PREMIUM.md](./docs/ARAH-PREMIUM.md). Rencana admin terbaru ada di [docs/ADMIN-DEMO-PLAN.md](./docs/ADMIN-DEMO-PLAN.md): login sungguhan memakai tabel `AdminUser`, sedangkan seluruh menu admin memakai data contoh lokal tanpa CRUD database. Bagian lama yang menyebut positioning kelas menengah, foto generik, urutan visual beranda, serta implementasi CRUD admin berbasis database adalah acuan historis.
+
 > **Dokumen ini adalah instruksi implementasi untuk Claude Code.** Baca seluruh dokumen sebelum menulis kode. Kerjakan sesuai urutan pada bagian "Urutan Eksekusi". Semua data bisnis (harga, nomor, alamat, testimoni) bersifat FIKTIF untuk keperluan demo — jangan mengklaim sebagai bisnis nyata di luar konteks demo.
 
 ---

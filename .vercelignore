@@ -4,3 +4,4 @@
 # lewat Environment Variables di dashboard, bukan lewat berkas ini.
 .env*
 .scratch/
+/card_*.webp

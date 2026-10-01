@@ -7,5 +7,5 @@ type Props = { searchParams: Promise<{ unit?: string; mulai?: string; selesai?: 
 export default async function BookingPage({ searchParams }: Props) {
   const [query, units] = await Promise.all([searchParams, listVehicleCards()]);
   const initialUnit = units.some((u) => u.slug === query.unit) ? query.unit! : "";
-  return <section className="mx-auto max-w-4xl px-4 py-14"><PageTitle eyebrow="Booking" title="Ajukan pemesanan" description="Isi detail perjalanan. Admin akan memeriksa unit dan tanggal melalui WhatsApp." /><BookingForm units={units.map(({ slug, name }) => ({ slug, name }))} initialUnit={initialUnit} initialStart={query.mulai ?? ""} initialEnd={query.selesai ?? ""} /></section>;
+  return <section className="mx-auto max-w-4xl px-4 py-14"><PageTitle eyebrow="Booking" title="Ajukan pemesanan" description="Isi detail perjalanan. Admin akan memeriksa unit dan tanggal melalui WhatsApp." /><BookingForm units={units.map(({ slug, name, priceSelfDrive }) => ({ slug, name, priceSelfDrive }))} initialUnit={initialUnit} initialStart={query.mulai ?? ""} initialEnd={query.selesai ?? ""} /></section>;
 }

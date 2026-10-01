@@ -1,12 +1,19 @@
 import Link from "next/link";
 
 import { formatRupiah } from "@/lib/format";
-import { WaButton } from "./WaButton";
+import { manualPhoto, PhotoSlot } from "./PhotoSlot";
 
-/**
- * Props sengaja berupa data mentah, bukan objek Prisma, supaya kartu ini bisa
- * dipakai halaman mana pun tanpa menyeret bentuk query tertentu.
- */
+const CARD_IMAGES: Record<string, string> = {
+  "honda-brio-satya": "/images/manual/card_brio.webp",
+  "toyota-avanza": "/images/manual/card_avanza.webp",
+  "daihatsu-xenia": "/images/manual/card_xenia.webp",
+  "toyota-innova-reborn-diesel": "/images/manual/card_innova_reborn.webp",
+  "toyota-alphard": "/images/manual/card_alphard.webp",
+  "toyota-fortuner": "/images/manual/card_fortuner.webp",
+  "toyota-innova-zenix-hybrid": "/images/manual/card_innova.webp",
+  "toyota-hiace-commuter": "/images/manual/card_hiace.webp",
+};
+
 export type VehicleCardData = {
   slug: string;
   name: string;
@@ -18,99 +25,33 @@ export type VehicleCardData = {
   images: string[];
 };
 
-function SpecIcon({ path }: { path: string }) {
-  return (
-    <svg viewBox="0 0 24 24" className="size-4 shrink-0 text-navy-700/60" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d={path} />
-    </svg>
-  );
-}
-
-const ICON_SEATS = "M4 18v-2a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v2M9 8a3 3 0 1 0 6 0 3 3 0 0 0-6 0";
-const ICON_GEAR = "M6 4v16M12 4v16M18 4v8M6 8h12M6 14h6";
-const ICON_FUEL = "M4 20V6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v14M3 20h12M14 9h3a2 2 0 0 1 2 2v5a1.5 1.5 0 0 0 3 0V9l-2-2";
-
-export function VehicleCard({ vehicle, priority = false }: { vehicle: VehicleCardData; priority?: boolean }) {
-  const { slug, name, seats, transmission, fuel, priceSelfDrive, priceWithDriver, images } = vehicle;
+export function VehicleCard({ vehicle }: { vehicle: VehicleCardData }) {
+  const { slug, name, seats, transmission, priceSelfDrive, priceWithDriver, images } = vehicle;
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-road-200 bg-white shadow-sm transition-shadow hover:shadow-md">
-      <Link href={`/armada/${slug}`} className="relative block">
-        {/* Sengaja <img>, bukan next/image: berkasnya sudah webp terpotong 4:3
-            seukuran kartu, jadi tidak ada yang tersisa untuk dioptimasi — dan
-            galeri detail masih bisa memuat .svg, yang next/image tidak proses. */}
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={images[0]}
-          alt={`Foto ilustrasi ${name}`}
-          width={1200}
-          height={900}
-          loading={priority ? "eager" : "lazy"}
-          fetchPriority={priority ? "high" : "auto"}
-          className="aspect-4/3 w-full object-cover transition-transform duration-300 group-hover:scale-[1.02]"
+    <article className="group flex h-full flex-col">
+      <Link href={`/armada/${slug}`} className="relative block overflow-hidden">
+        <PhotoSlot
+          label={`${name} — tampak luar`}
+          src={CARD_IMAGES[slug] ?? images.find(manualPhoto)}
+          className="aspect-4/3 transition-transform duration-500 group-hover:scale-[1.02]"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {/* Foto armada generik, bukan unit yang sebenarnya. Label ini mencegah
-            pengunjung menyangka sedang melihat mobil yang akan ia terima. */}
-        <span className="absolute bottom-2 right-2 rounded bg-navy-900/75 px-2 py-0.5 text-xs font-medium text-white">
-          Foto ilustrasi
-        </span>
       </Link>
 
-      <div className="flex flex-1 flex-col p-5">
-        <h3 className="font-display text-lg font-bold text-navy-900">
-          <Link href={`/armada/${slug}`} className="hover:text-navy-700">
-            {name}
-          </Link>
+      <div className="flex flex-1 flex-col pt-5">
+        <h3 className="font-display text-xl font-bold text-navy-900">
+          <Link href={`/armada/${slug}`} className="hover:underline hover:underline-offset-4">{name}</Link>
         </h3>
-
-        <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-navy-700">
-          <li className="flex items-center gap-1.5">
-            <SpecIcon path={ICON_SEATS} />
-            {seats} kursi
-          </li>
-          <li className="flex items-center gap-1.5">
-            <SpecIcon path={ICON_GEAR} />
-            {transmission === "MATIC" ? "Matic" : "Manual"}
-          </li>
-          <li className="flex items-center gap-1.5">
-            <SpecIcon path={ICON_FUEL} />
-            {fuel}
-          </li>
-        </ul>
-
-        <dl className="mt-4 space-y-1.5 border-t border-road-200 pt-4">
+        <p className="mt-1 text-sm text-navy-700">{seats} kursi · {transmission === "MATIC" ? "Matic" : "Manual"}</p>
+        <div className="mt-auto pt-5">
+          <p className="text-sm text-navy-700">Dengan sopir / 12 jam</p>
+          <p className="tabular font-display text-lg font-semibold text-navy-900">{formatRupiah(priceWithDriver)}</p>
           {priceSelfDrive !== null ? (
-            <div className="flex items-baseline justify-between gap-3">
-              <dt className="text-sm text-navy-700">Lepas kunci</dt>
-              <dd className="tabular font-display text-lg font-extrabold text-navy-900">
-                {formatRupiah(priceSelfDrive)}
-                <span className="ml-1 text-xs font-medium text-navy-700/70">/hari</span>
-              </dd>
-            </div>
-          ) : (
-            <div className="flex items-baseline justify-between gap-3">
-              <dt className="text-sm text-navy-700">Lepas kunci</dt>
-              <dd className="text-sm font-medium text-navy-700/60">Tidak tersedia</dd>
-            </div>
-          )}
-          <div className="flex items-baseline justify-between gap-3">
-            <dt className="text-sm text-navy-700">Dengan sopir</dt>
-            <dd className="tabular font-display text-lg font-extrabold text-navy-900">
-              {formatRupiah(priceWithDriver)}
-              <span className="ml-1 text-xs font-medium text-navy-700/70">/12 jam</span>
-            </dd>
-          </div>
-        </dl>
-
-        <div className="mt-5 flex items-center gap-2">
-          <WaButton context={{ kind: "unit", unitName: name }} size="sm" className="flex-1">
-            WhatsApp
-          </WaButton>
-          <Link
-            href={`/armada/${slug}`}
-            className="inline-flex min-h-11 items-center justify-center rounded-lg border-2 border-navy-900 px-4 text-sm font-semibold text-navy-900 transition-colors hover:bg-navy-900 hover:text-white"
-          >
-            Detail
+            <p className="mt-1 text-sm text-navy-700">Lepas kunci {formatRupiah(priceSelfDrive)} / hari</p>
+          ) : null}
+          <Link href={`/armada/${slug}`} className="mt-5 inline-flex min-h-11 items-center gap-2 text-sm font-semibold text-navy-900 underline decoration-[#B89A62] underline-offset-4">
+            Lihat mobil <span aria-hidden="true">↗</span>
           </Link>
         </div>
       </div>

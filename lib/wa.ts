@@ -16,6 +16,7 @@ export type WaContext =
   | { kind: "dengan-sopir" }
   | { kind: "bulanan"; unitName?: string }
   | { kind: "corporate" }
+  | { kind: "keperluan"; label: string }
   | { kind: "booking"; code: string }
   | { kind: "pelanggan"; code: string; customerName: string };
 
@@ -62,6 +63,16 @@ function message(ctx: WaContext): string {
         "Durasi kontrak: ",
         "Kebutuhan sopir: ",
         "Butuh invoice & NPWP: ",
+        "Mohon dibantu penawarannya. Terima kasih.",
+      ].join("\n");
+
+    case "keperluan":
+      return [
+        `Halo KL Rent Car, saya ingin menanyakan ${ctx.label}.`,
+        "Tanggal / durasi: ",
+        "Mobil / jumlah unit: ",
+        "Lokasi dan rute: ",
+        "Kebutuhan sopir: ",
         "Mohon dibantu penawarannya. Terima kasih.",
       ].join("\n");
 

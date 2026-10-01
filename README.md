@@ -62,18 +62,14 @@ ada — tidak perlu `migrate` atau `seed` ulang saat pindah mesin.
 | `npm run db:migrate` | Buat dan terapkan migrasi baru |
 | `npm run db:seed` | Isi ulang database dari `prisma/fleet-data.ts` |
 | `npm run db:studio` | Prisma Studio |
-| `npm run images:fetch` | Unduh ulang foto armada dari Unsplash |
+| `npm run images:fetch` | Arsip skrip lama untuk foto ilustrasi; tidak dipakai tampilan baru |
 
-## Mengganti foto armada
+## Memasang foto armada
 
-Foto saat ini generik dan **bukan model mobil yang sesuai nama unit** — kartu
-armada memberi label "Foto ilustrasi" karena itu. Kredit fotografer ada di
+Hero dan seluruh delapan kartu armada memakai gambar yang diberikan pemilik; galeri detail memakai slot kosong sampai foto yang sesuai tersedia. Lihat
+[`docs/FOTO-ASLI.md`](./docs/FOTO-ASLI.md) untuk daftar foto, ukuran, dan cara
+memasangnya. Foto ilustrasi lama tidak ditampilkan; kreditnya tetap ada di
 [`public/images/armada/CREDITS.md`](./public/images/armada/CREDITS.md).
-
-Untuk memasang foto asli: timpa berkas di `public/images/armada/` memakai nama
-yang sama (`<slug>-1`, `-2`, `-3`; ekstensi `.webp`, `.jpg`, `.jpeg`, atau
-`.png`), lalu `npm run db:seed`. Tidak ada kode yang perlu disunting — seed
-memindai folder itu dan memakai apa pun yang ditemukan.
 
 ## Mengganti nomor WhatsApp
 
@@ -86,6 +82,25 @@ spasi). Seluruh tombol WhatsApp mengambil dari satu variabel itu.
 Struktur SEO tetap lengkap agar bisa didemokan ke klien; yang dimatikan hanya
 pengindeksannya, supaya demo ini tidak bersaing di hasil pencarian dengan
 operator rental sungguhan.
+
+### Demo admin
+
+Area admin ada di `/admin/login`. Login memakai akun `AdminUser` yang sudah di-seed
+dari `ADMIN_EMAIL` dan `ADMIN_PASSWORD`; kredensial diberikan kepada calon klien
+secara privat. Atur `ADMIN_SESSION_SECRET` dengan nilai acak minimal 32 karakter
+di environment lokal dan hosting. Contoh pembuatan secret: `openssl rand -base64 48`.
+
+Untuk showcase multi-role, buka **`/demo`** dan login dengan email/kata sandi
+akun Admin Rental atau pemilik kendaraan. Pelanggan menggunakan website publik
+tanpa login. Pemilih role tanpa kata sandi tidak tersedia.
+
+Booking customer terhubung ke mobil fisik dan pemiliknya, dengan kelanjutan
+WhatsApp tetap tersedia. Portal `/pemilik` bersifat baca saja dan dibatasi di server.
+Data operasional disimpan di Neon, dibagikan antar-akun dan instance Vercel,
+serta bertahan saat refresh. Data awal diperbarui setelah 12 jam tanpa perubahan.
+**Reset demo** oleh admin mengembalikan workspace showcase bersama ke awal.
+Migrasi hanya menambahkan tabel demo; katalog existing tidak diubah.
+Lihat [alur, model data, dan batas demo multi-role](./docs/MULTI-ROLE-DEMO.md).
 
 ## Status pekerjaan
 

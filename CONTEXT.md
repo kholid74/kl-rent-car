@@ -19,7 +19,9 @@ Kalsara. Satu-satunya tempat "kami" berarti Kalsara adalah banner demo.
 tidak pernah jadi entitas tersimpan tersendiri — identitasnya hidup di dalam
 Booking sebagai nama dan nomor WhatsApp.
 
-**Admin** — pengelola KL Rent Car. Satu-satunya pengguna yang login.
+**Admin** — peran pengelola KL Rent Car yang disimulasikan dalam showcase. Area admin hanya bisa dijelajahi setelah login dengan akun nyata pada tabel `AdminUser`.
+
+**Sopir** — orang yang ditugaskan untuk layanan dengan sopir. Profil dan jadwal sopir dalam admin demo adalah data fiktif.
 
 ## Armada
 
@@ -55,6 +57,8 @@ itu dinegosiasikan lewat penawaran, bukan berarti tidak tersedia bulanan.
 permintaan, tidak pernah transaksi: tidak ada pembayaran di situs, dan
 konfirmasi sesungguhnya terjadi lewat WhatsApp.
 
+**Pesanan Demo** — representasi booking fiktif dalam admin showcase. Perubahannya tidak mengubah Booking yang berasal dari situs publik.
+
 **Kode Booking** — pengenal yang dibaca manusia, dipakai pelanggan untuk
 menengok status dan disebut saat chat admin. Ini satu-satunya kunci yang
 dipegang pelanggan.
@@ -79,6 +83,4 @@ luarnya dan disepakati lewat WhatsApp.
 hidup. Konsekuensinya mesin pencari diminta tidak mengindeks, dan pengunjung
 diberi tahu lewat banner bahwa datanya fiktif.
 
-**Reset Demo** — pengembalian seluruh data ke keadaan awal, dijadwalkan
-harian. Berlaku ke armada juga, bukan hanya booking: perubahan apa pun yang
-dilakukan pengunjung demo tidak boleh diwarisi pengunjung berikutnya.
+**Reset Demo** — pengembalian Pesanan Demo, armada demo, dan sopir demo ke keadaan awal tanpa mengakhiri sesi login. Perubahan satu pengunjung showcase tidak diwarisi pengunjung berikutnya.

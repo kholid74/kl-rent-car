@@ -8,7 +8,7 @@
 export const SITE = {
   name: "KL Rent Car",
   legalName: "PT Karya Laju Transportasi",
-  tagline: "Rental Mobil Jakarta & Tangerang Selatan — Terawat, Transparan, Tepat Waktu",
+  tagline: "Mobil untuk perjalanan yang berarti",
   foundedYear: 2016,
   email: "halo@klrentcar.demo",
   address: {

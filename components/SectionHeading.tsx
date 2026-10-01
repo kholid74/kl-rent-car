@@ -16,11 +16,11 @@ export function SectionHeading({ as: Tag = "h2", eyebrow, title, description, al
   return (
     <div className={centered ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
       {eyebrow ? (
-        <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-navy-700/70">{eyebrow}</p>
+        <p className="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-500">{eyebrow}</p>
       ) : null}
       <Tag
-        className={`font-display font-extrabold text-navy-900 ${
-          Tag === "h1" ? "text-3xl sm:text-4xl lg:text-5xl" : "text-2xl sm:text-3xl"
+        className={`font-display font-bold tracking-tight text-navy-900 ${
+          Tag === "h1" ? "text-3xl sm:text-4xl lg:text-5xl" : "text-3xl sm:text-4xl"
         }`}
       >
         {title}

@@ -1,26 +1,24 @@
 @import "tailwindcss";
 
-/**
- * Konsep visual: "ruang tunggu showroom yang rapi". Terang, banyak ruang kosong,
- * satu aksen dekoratif saja (marka jalan). Palet sengaja sempit supaya situs
- * terasa tertib, bukan ramai.
- */
 @theme {
-  --color-navy-900: #0f2a43;
-  --color-navy-700: #1d4568;
-  --color-road-100: #f5f7f9;
-  --color-road-200: #e6ebf0;
+  --color-navy-900: #151515;
+  --color-navy-700: #5f5d58;
+  --color-road-100: #f7f5f0;
+  --color-road-200: #dcd7cd;
 
-  /* Hanya untuk tombol WhatsApp. Dipakai di elemen lain, warnanya kehilangan
-     arti dan pengunjung berhenti mengenalinya sebagai kanal chat. */
+  /* Hijau hanya untuk identitas WhatsApp, bukan aksen umum. */
   --color-wa: #1fa855;
   --color-wa-dark: #17853f;
 
-  /* Aksen kecil: harga, badge, hover. Dipakai hemat. */
-  --color-amber-500: #e8a020;
+  --color-amber-500: #806338;
+  --color-gold: #b89a62;
 
   --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-editorial {
+  font-family: Georgia, "Times New Roman", serif;
 }
 
 /**
@@ -32,7 +30,7 @@ html {
 }
 
 body {
-  background-color: #ffffff;
+  background-color: #f7f5f0;
   color: var(--color-navy-900);
   font-family: var(--font-sans);
   /* Spec meminta body minimal 16px. */
@@ -40,21 +38,9 @@ body {
   line-height: 1.65;
 }
 
-/**
- * Marka jalan: satu-satunya elemen dekoratif tematik, dipasang di bawah tiap
- * heading section. Digambar dengan gradient berulang agar tidak butuh aset dan
- * ikut menyesuaikan lebar induknya.
- */
 .road-divider {
-  height: 4px;
-  border-radius: 2px;
-  background-image: repeating-linear-gradient(
-    to right,
-    var(--color-amber-500) 0,
-    var(--color-amber-500) 18px,
-    transparent 18px,
-    transparent 30px
-  );
+  height: 1px;
+  background: var(--color-gold);
 }
 
 /* Angka harga dibaca berjajar antar kartu; lebar digit harus seragam. */

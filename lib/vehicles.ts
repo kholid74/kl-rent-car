@@ -33,7 +33,7 @@ export async function listVehicleCards(options?: {
       ...(options?.category ? { category: options.category as never } : {}),
       ...(options?.excludeSlug ? { slug: { not: options.excludeSlug } } : {}),
     },
-    orderBy: { priceWithDriver: "asc" },
+    orderBy: { priceWithDriver: "desc" },
     take: options?.take,
     select: vehicleCardSelect,
   });

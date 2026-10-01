@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: `%s | ${SITE.name} — Rental Mobil Jakarta & Tangsel`,
   },
   description:
-    "Sewa mobil harian, mingguan, dan bulanan di Jakarta & Tangerang Selatan. Lepas kunci atau dengan sopir, harga transparan tanpa biaya tersembunyi.",
+    "Pilihan mobil untuk sewa harian, bulanan, tahunan, wedding car, dan agenda resmi di Jabodetabek. Layanan dengan sopir menjadi fokus KL Rent Car.",
   // Situs demo tidak boleh bersaing di hasil pencarian dengan operator rental
   // sungguhan. Struktur SEO tetap lengkap agar bisa didemokan ke klien.
   robots: DEMO_MODE ? { index: false, follow: false } : undefined,

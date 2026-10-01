@@ -11,7 +11,7 @@ function todayJakarta(): string {
 }
 
 /**
- * Widget cek ketersediaan di hero.
+ * Widget awal permintaan booking.
  *
  * Ruang paling berharga di halaman dipakai untuk memulai konversi, bukan untuk
  * dekorasi. Widget ini belum memanggil API mana pun — ia hanya membawa pilihan
@@ -39,15 +39,13 @@ export function AvailabilityWidget({ units }: { units: WidgetUnit[] }) {
   }
 
   const field =
-    "min-h-12 w-full rounded-lg border border-road-200 bg-white px-3 text-navy-900 focus:border-navy-700";
-  const label = "block text-sm font-semibold text-navy-900";
+    "min-h-12 w-full rounded-none border-0 border-b border-[#817E77] bg-transparent px-0 text-navy-900 focus:border-navy-900";
+  const label = "block text-sm font-medium text-navy-700";
 
   return (
-    <form onSubmit={submit} className="rounded-xl bg-white p-6 shadow-xl">
-      <h2 className="font-display text-lg font-bold text-navy-900">Cek ketersediaan</h2>
-      <div className="road-divider mt-3 w-20" aria-hidden="true" />
-
-      <div className="mt-5 space-y-4">
+    <form onSubmit={submit} className="bg-white px-6 py-8 sm:px-9 sm:py-9">
+      <h3 className="font-display text-xl font-semibold text-navy-900">Mulai permintaan</h3>
+      <div className="mt-7 space-y-6">
         <div>
           <label htmlFor="w-unit" className={label}>
             Unit
@@ -67,7 +65,7 @@ export function AvailabilityWidget({ units }: { units: WidgetUnit[] }) {
           </select>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid gap-6 sm:grid-cols-2">
           <div>
             <label htmlFor="w-mulai" className={label}>
               Mulai
@@ -103,15 +101,15 @@ export function AvailabilityWidget({ units }: { units: WidgetUnit[] }) {
         </div>
       </div>
 
-      <button
-        type="submit"
-        className="mt-6 inline-flex min-h-12 w-full items-center justify-center rounded-lg bg-navy-900 font-semibold text-white transition-colors hover:bg-navy-700"
-      >
-        Cek Ketersediaan
-      </button>
-      <p className="mt-3 text-center text-sm text-navy-700/70">
-        Tanpa pembayaran online. Admin mengonfirmasi lewat WhatsApp.
-      </p>
+      <div className="mt-8 flex flex-col gap-5 border-t border-road-200 pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <p className="max-w-56 text-sm text-navy-700">Admin mengonfirmasi detail lewat WhatsApp.</p>
+        <button
+          type="submit"
+          className="inline-flex min-h-12 items-center justify-center bg-navy-900 px-6 font-semibold text-white transition-colors hover:bg-[#303030]"
+        >
+          Lanjut ke formulir
+        </button>
+      </div>
     </form>
   );
 }

@@ -106,3 +106,28 @@ model AdminUser {
   password String
   name     String
 }
+
+/// Shared showcase state; compare revision on every write to prevent lost updates.
+model DemoWorkspace {
+  id        String   @id
+  data      Json
+  revision  String
+  expiresAt DateTime
+}
+
+/// Client-facing demo credentials; separated from the existing administrator account.
+model DemoAccount {
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String
+  role     String
+  ownerId  String?
+}
+
+model DemoLoginAttempt {
+  key       String   @id
+  count     Int      @default(1)
+  expiresAt DateTime
+
+  @@index([expiresAt])
+}

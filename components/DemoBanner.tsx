@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 
 /**
  * Pengunjung berhak tahu bahwa harga, testimoni, dan legalitas di situs ini
@@ -15,20 +16,21 @@ export function DemoBanner() {
   if (!open) return null;
 
   return (
-    <div className="bg-navy-900 text-white">
-      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2 text-sm">
+    <div className="bg-[#252420] text-white/75">
+      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-1 text-xs">
         <p className="flex-1">
           Website demo oleh{" "}
           <a
             href="https://kalsara.id"
             target="_blank"
             rel="noopener noreferrer"
-            className="font-semibold underline underline-offset-2 hover:text-amber-500"
+            className="font-semibold text-white underline underline-offset-2"
           >
             Kalsara Digital Studio
           </a>{" "}
           — seluruh data bisnis di halaman ini fiktif.
         </p>
+        <Link href="/demo" className="shrink-0 font-semibold text-[#D7BC88] underline underline-offset-2">Demo multi-role</Link>
         <button
           type="button"
           onClick={() => setOpen(false)}
